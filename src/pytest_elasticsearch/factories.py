@@ -70,6 +70,7 @@ def _generate_es_cmdline(es_version, executable, pid_file, **kwargs):
         'http.host': 'host',
         'default.path.logs': 'logs_path',
         'default.path.conf': 'conf_path',
+        'path.data': 'data_path',
         'cluster.name': 'cluster',
         'network.publish_host': 'network_publish_host',
         'index.store.type': 'index_store_type'
@@ -120,6 +121,7 @@ def elasticsearch_proc(executable='elasticsearch',
                        network_publish_host=None,
                        discovery_zen_ping_multicast_enabled=None,
                        index_store_type=None, logs_prefix=None,
+                       elasticsearch_datadir=None,
                        elasticsearch_logsdir=None,
                        elasticsearch_confdir=None):
     """
@@ -147,6 +149,7 @@ def elasticsearch_proc(executable='elasticsearch',
     :param str index_store_type: index.store.type setting. *memory* (ES < 5.0) or *fs* (ES >= 5.0) by default
     :param str logs_prefix: prefix for log filename
     :param str elasticsearch_logsdir: path for logs.
+    :param str elasticsearch_datadir: path for data.
     :param str elasticsearch_confdir: path for Elasticsearch config.
     """
 
@@ -176,6 +179,7 @@ def elasticsearch_proc(executable='elasticsearch',
                 prefix=elasticsearch_logs_prefix,
                 port=elasticsearch_port
             ))
+        data_dir = elasticsearch_datadir or tmpdir
 
         conf_path = elasticsearch_confdir or config['confdir'] or _default_conf_dir(es_ver)
 
@@ -199,6 +203,7 @@ def elasticsearch_proc(executable='elasticsearch',
             logs_path=logs_path,
             conf_path=conf_path,
             work_path=work_path,
+            data_path=data_dir,
             cluster=elasticsearch_cluster_name,
             network_publish_host=elasticsearch_network_publish_host,
             multicast_enabled=multicast_enabled,

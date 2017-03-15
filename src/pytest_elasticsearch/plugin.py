@@ -108,6 +108,13 @@ def pytest_addoption(parser):
     )
 
     parser.addoption(
+        '--elasticsearch-datadir',
+        action='store',
+        dest='elasticsearch_datadir',
+        help=_help_host,
+    )
+
+    parser.addoption(
         '--elasticsearch-host',
         action='store',
         dest='elasticsearch_host',
